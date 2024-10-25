@@ -1,8 +1,93 @@
+local animations = {
+    components = {
+        [1] = { --[[ berd ]]
+            dict = "mp_masks@standard_car@ds@",
+            anim = "put_on_mask",
+            move = 51,
+            duration = 600
+        },
+        [4] = { --[[ lowr ]]
+            dict = "re@construction",
+            anim = "out_of_breath",
+            move = 51,
+            duration = 1300
+        },
+        [6] = { --[[ feet ]]
+            dict = "random@domestic",
+            anim = "pickup_low",
+            move = 51,
+            duration = 1300
+        },
+        [11] = { --[[ jbib ]]
+            dict = "clothingtie",
+            anim = "try_tie_negative_a",
+            move = 51,
+            duration = 1200
+        }
+    },
+    props = {
+        [0] = {
+            on = {
+                dict = "veh@common@fp_helmet@",
+                anim = "put_on_helmet",
+                move = 51,
+                duration = 1800,
+                wait = 1400
+            },
+            off = {
+                dict = "veh@bike@common@front@base",
+                anim = "take_off_helmet_stand_l",
+                move = 51,
+                duration = 1200,
+                wait = 600
+            },
+        },
+        [1] = {
+            on = {
+                dict = "clothingspecs",
+                anim = "try_glasses_neutral_b",
+                move = 51,
+                duration = 1200,
+                wait = 1000
+            },
+            off = {
+                dict = "clothingspecs",
+                anim = "take_off",
+                move = 51,
+                duration = 1200,
+                wait = 800
+            },
+        }
+    }
+}
+
 RegisterNetEvent('setPedComponent', function(components)
+    local animation = animations.components[components.component_id]
+    if animation then
+        lib.playAnim(cache.ped, animation.dict, animation.anim, 3.0, 3.0, animation.duration, animation.move, 0)
+        Wait(animation.duration)
+    end
+
     exports['illenium-appearance']:setPedComponent(PlayerPedId(), components)
 end)
 
 RegisterNetEvent('setPedProp', function(props)
+    local animation = animations.props[props.prop_id]
+    if animation then
+
+        local currentIndex = GetPedPropIndex(cache.ped, props.prop_id)
+        -- local currentVar = GetPedPropTextureIndex(cache.ped, props.prop_id)
+
+        if currentIndex ~= -1 then
+            lib.playAnim(cache.ped, animation.off.dict, animation.off.anim, 3.0, 3.0, animation.off.duration, animation.off.move, 0)
+            Wait(animation.off?.wait or 0)
+        end
+        if props.drawable ~= -1 then
+            lib.playAnim(cache.ped, animation.on.dict, animation.on.anim, 3.0, 3.0, animation.on.duration, animation.on.move, 0)
+            Wait(animation.on?.wait or 0)
+        end
+    end
+
     exports['illenium-appearance']:setPedProp(PlayerPedId(), props)
 end)
 
