@@ -650,3 +650,9 @@ RegisterNetEvent('esx:playerLoaded', function(playerId)
 
     onPlayerLoaded(playerId)
 end)
+
+RegisterNetEvent('ox:playerLoaded', function (playerId)
+    if not playerId then return end
+
+    onPlayerLoaded(playerId)
+end)
