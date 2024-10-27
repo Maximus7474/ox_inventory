@@ -7,8 +7,9 @@ import { Locale } from '../../store/locale';
 import { isSlotWithItem } from '../../helpers';
 import { setClipboard } from '../../utils/setClipboard';
 import { useAppSelector } from '../../store';
-import React from 'react';
+import React, { useState } from 'react';
 import { Menu, MenuItem } from '../utils/menu/Menu';
+import RenameModal from '../utils/Modal';
 
 interface DataProps {
   action: string;
@@ -38,6 +39,12 @@ interface GroupedButtons extends Array<Group> {}
 const InventoryContext: React.FC = () => {
   const contextMenu = useAppSelector((state) => state.contextMenu);
   const item = contextMenu.item;
+  const [isRenameModalOpen, setRenameModalOpen] = useState<boolean>(false);
+
+  const handleRename = (newName: string) => {
+    if (!item) return;
+    fetchNui('renameItem', { slot: item.slot, newName });
+  };
 
   const handleClick = (data: DataProps) => {
     if (!item) return;
@@ -51,6 +58,9 @@ const InventoryContext: React.FC = () => {
         break;
       case 'drop':
         isSlotWithItem(item) && onDrop({ item: item, inventory: 'player' });
+        break;
+      case 'rename':
+        setRenameModalOpen(true);
         break;
       case 'remove':
         fetchNui('removeComponent', { component: data?.component, slot: data?.slot });
@@ -95,6 +105,7 @@ const InventoryContext: React.FC = () => {
         <MenuItem onClick={() => handleClick({ action: 'use' })} label={Locale.ui_use || 'Use'} />
         <MenuItem onClick={() => handleClick({ action: 'give' })} label={Locale.ui_give || 'Give'} />
         <MenuItem onClick={() => handleClick({ action: 'drop' })} label={Locale.ui_drop || 'Drop'} />
+        <MenuItem onClick={() => handleClick({ action: 'rename' })} label={Locale.ui_rename || 'Rename'} />
         {item && item.metadata?.ammo > 0 && (
           <MenuItem onClick={() => handleClick({ action: 'removeAmmo' })} label={Locale.ui_remove_ammo} />
         )}
@@ -146,6 +157,11 @@ const InventoryContext: React.FC = () => {
           </>
         )}
       </Menu>
+      <RenameModal
+        isOpen={isRenameModalOpen}
+        onClose={() => setRenameModalOpen(false)}
+        onSubmit={handleRename}
+      />
     </>
   );
 };
