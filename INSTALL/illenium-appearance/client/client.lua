@@ -108,25 +108,33 @@ function SetInitialClothes(initial)
 end
 
 local ClotheListPropsStart = {
-    ["hat"] = {-99, -99},
-    ["glasses"] = {-99, -99},
-    ["earrings"] = {-99, -99},
-    ["watch"] = {-99, -99},
-    ["bracelet"] = {-99, -99},
+    -- ["hat"] = {-99, -99},
+    -- ["glasses"] = {-99, -99},
+    -- ["earrings"] = {-99, -99},
+    -- ["watch"] = {-99, -99},
+    -- ["bracelet"] = {-99, -99},
 }
 local ClotheListComponentsStart = {
-    ["mask"] = {-99, -99},
-    ["chain"] = {-99, -99},
-    ["undershirt"] = {-99, -99},
-    ["jacket"] = {-99, -99},
-    ["bodyarmor"] = {-99, -99},
-    ["bag"] = {-99, -99},
-    ["pants"] = {-99, -99},
-    ["shoes"] = {-99, -99},
-    ["gloves"] = {-99, -99}, 
+    -- ["mask"] = {-99, -99},
+    -- ["chain"] = {-99, -99},
+    -- ["undershirt"] = {-99, -99},
+    -- ["jacket"] = {-99, -99},
+    -- ["bodyarmor"] = {-99, -99},
+    -- ["bag"] = {-99, -99},
+    -- ["pants"] = {-99, -99},
+    -- ["shoes"] = {-99, -99},
+    -- ["gloves"] = {-99, -99},
 }
 
-function AddToListComponentStart(clothing)
+function AddToListComponentStart(clothing, initialComponents)
+
+    for _, data in pairs(initialComponents) do
+        if data.component_id == clothing.component_id then
+            if data.drawable == clothing.drawable then return end
+            break
+        end
+    end
+
     if clothing.component_id == 1 then
         ClotheListComponentsStart["mask"] = {clothing.drawable, clothing.texture}
     elseif clothing.component_id == 7 then
@@ -151,6 +159,7 @@ function AddToListComponentStart(clothing)
 end
 
 function AddToListPropsStart(clothing)
+    if clothing.drawable == -1 then return end
     if clothing.prop_id == 0 then
         ClotheListPropsStart["hat"] = {clothing.drawable, clothing.texture}
     elseif clothing.prop_id == 1 then
@@ -167,11 +176,13 @@ function AddToListPropsStart(clothing)
 end
 
 function InitializeCharacter(gender, onSubmit, onCancel)
-    SetInitialClothes(Config.InitialPlayerClothes[gender])
+    local initialClothes = Config.InitialPlayerClothes[gender]
+    SetInitialClothes(initialClothes)
     local config = getNewCharacterConfig()
     TriggerServerEvent("illenium-appearance:server:ChangeRoutingBucket")
     client.startPlayerCustomization(function(appearance)
         if (appearance) then
+            ClotheListPropsStart, ClotheListComponentsStart = {}, {}
             --TriggerServerEvent("illenium-appearance:server:saveAppearance", appearance)
             for k,v in pairs(appearance) do
                 if k == 'props' then
@@ -180,7 +191,7 @@ function InitializeCharacter(gender, onSubmit, onCancel)
                     end
                 elseif k == 'components' then
                     for z,zooparkas in pairs(v) do
-                        AddToListComponentStart(zooparkas)
+                        AddToListComponentStart(zooparkas, initialClothes.Components)
                     end
                 end
             end
