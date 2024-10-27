@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Locale } from '../../store/locale';
 
 interface RenameModalProps {
   isOpen: boolean;
@@ -44,12 +45,12 @@ const RenameModal: React.FC<RenameModalProps> = ({ isOpen, onClose, onSubmit }) 
           textAlign: 'center',
         }}
       >
-        <h2 style={{ margin: '0 0 15px' }}>Rename Item</h2>
+        <h2 style={{ margin: '0 0 15px' }}>{Locale.ui_renameTitle || "Rename Item"}</h2>
         <input
           type="text"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
-          placeholder="Enter new name"
+          placeholder={Locale.ui_renameNewName || "Enter new name"}
           className='inventory-control-input'
           style={{
             margin: '5px auto 15px',
@@ -64,13 +65,13 @@ const RenameModal: React.FC<RenameModalProps> = ({ isOpen, onClose, onSubmit }) 
             onClick={onClose}
             className='inventory-control-button'
           >
-            Cancel
+            {Locale.ui_cancel || "Cancel"}
           </button>
           <button
             onClick={handleSubmit}
             className='inventory-control-button'
           >
-            Submit
+            {Locale.ui_submit || "Submit"}
           </button>
         </div>
       </div>
