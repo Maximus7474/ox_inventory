@@ -9,7 +9,7 @@ import { setClipboard } from '../../utils/setClipboard';
 import { useAppSelector } from '../../store';
 import React, { useState } from 'react';
 import { Menu, MenuItem } from '../utils/menu/Menu';
-import RenameModal from '../utils/Modal';
+import RenameModal from '../utils/RenameModal';
 
 interface DataProps {
   action: string;
