@@ -703,6 +703,15 @@ local function useButton(id, slot)
 	end
 end
 
+---@param slot number
+---@param newName string
+local function renameItem(slot, newName)
+	if type(newName) ~= 'string' then return end
+	if #newName < 2 then return lib.notify({title="Invalid Name", type="error"}) end
+
+	TriggerServerEvent('ox_inventory:renameItemInternal', slot, newName)
+end
+
 local function openNearbyInventory() client.openInventory('player') end
 
 exports('openNearbyInventory', openNearbyInventory)
@@ -1633,6 +1642,11 @@ end)
 
 RegisterNUICallback('useItem', function(slot, cb)
 	useSlot(slot --[[@as number]])
+	cb(1)
+end)
+
+RegisterNuiCallback('renameItem', function (data, cb)
+	renameItem(data.slot --[[@as number]], data.newName --[[@as string]])
 	cb(1)
 end)
 
