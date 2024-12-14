@@ -101,7 +101,7 @@ const InventoryGrid: React.FC<{ inventory: Inventory }> = ({ inventory }) => {
                     />
                   ))}
                 </div>
-                <img style={{ height: '41rem' }} src="https://r2.fivemanage.com/pub/10bmieikif1o.png" alt="Character Image Missing (Read Docs)" />
+                <img style={{ height: '41rem' }} src={"https://i.ibb.co/zF9G17Q/char.png"} alt="Character Image Missing (Read Docs)" />
 
                 <div className='Clothing2'>
                   {inventory.items.slice(37, 44).map((item, index) => (
