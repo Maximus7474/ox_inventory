@@ -40,8 +40,12 @@ files {
     'web/build/assets/*.js',
     'web/build/assets/*.css',
     'web/images/*.png',
+    'web/images/c-icons/*.png',
     'modules/**/shared.lua',
     'modules/**/client.lua',
     'modules/bridge/**/client.lua',
     'data/*.lua',
 }
+
+client_script 'modules/clothing/client.lua'
+server_script 'modules/clothing/server.lua'

@@ -151,7 +151,7 @@ end
 
 function shared.print(...) print(string.strjoin(' ', ...)) end
 
-function shared.info(...) lib.print.info(string.strjoin(' ', ...)) end
+function shared.info(...) shared.print('^2[info]^7', ...) end
 
 ---Throws a formatted type error.
 ---```lua
