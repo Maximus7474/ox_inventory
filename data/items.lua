@@ -102,6 +102,12 @@ return {
 		}
 	},
 
+	['unpacked_parachute'] = {
+		label = 'Opened Parachute',
+		weight = 8000,
+		stack = false,
+	},
+
 	['garbage'] = {
 		label = 'Garbage',
 	},
@@ -144,17 +150,13 @@ return {
 		stack = false,
 		consume = 0,
 		client = {
-			add = function(total)
-				if total > 0 then
-					pcall(function() return exports.npwd:setPhoneDisabled(false) end)
-				end
-			end,
-
-			remove = function(total)
-				if total < 1 then
-					pcall(function() return exports.npwd:setPhoneDisabled(true) end)
-				end
-			end
+            export = "lb-phone.UsePhoneItem",
+            remove = function()
+                TriggerEvent("lb-phone:itemRemoved")
+            end,
+            add = function()
+                TriggerEvent("lb-phone:itemAdded")
+            end
 		}
 	},
 
@@ -184,6 +186,19 @@ return {
 			usetime = 2500,
 			cancel = true,
 			notification = 'You drank some refreshing water'
+		}
+	},
+
+	['cola'] = {
+		label = 'E Cola',
+		weight = 500,
+		client = {
+			status = { thirst = 200000 },
+			anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle' },
+			prop = { model = `prop_ecola_can`, pos = vec3(0.03, 0.03, 0.02), rot = vec3(0.0, 0.0, -1.5) },
+			usetime = 2500,
+			cancel = true,
+			notification = 'You drank some refreshing ecola'
 		}
 	},
 
