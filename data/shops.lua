@@ -152,7 +152,12 @@ return {
 		}, locations = {
 			vec3(309.09, -913.75, 56.46)
 		}, targets = {
-
+            {
+                ped = `mp_m_weapexp_01`,
+                scenario = 'WORLD_HUMAN_GUARD_STAND',
+                loc = vec3(309.09, -913.75, 56.46 - 0.98),
+                heading = 90.0,
+            },
 		}
 	},
 
