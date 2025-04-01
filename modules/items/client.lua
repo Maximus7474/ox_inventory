@@ -129,6 +129,34 @@ Item('parachute', function(data, slot)
 	end
 end)
 
+exports.ox_target:addModel(`p_parachute_s`, {{
+    label = "Pick up parachute",
+    icon  = "fa-regular fa-hand",
+    onSelect = function(data)
+        local entity = data.entity
+
+        if not entity then
+            lib.print.error('Can not pick up item, no control on it')
+            return
+        end
+
+        lib.callback("pick-up-parachute", false, function(canCarry)
+            if canCarry then
+                SetEntityAsMissionEntity(entity, true, true)
+
+                DeleteEntity(entity)
+                lib.print.info("Picked up parachute")
+            else
+                lib.notify({
+                    type = "error",
+                    title = "Unable to pick up"
+                })
+                lib.print.warn("Unable to pick up item, can't carry it")
+            end
+        end)
+    end,
+}})
+
 Item('phone', function(data, slot)
 	local success, result = pcall(function()
 		return exports.npwd:isPhoneVisible()

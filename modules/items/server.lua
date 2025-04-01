@@ -445,6 +445,17 @@ local function Item(name, cb)
 	end
 end
 
+lib.callback.register("pick-up-parachute", function (source)
+    if exports.ox_inventory:CanCarryItem(source, "unpacked_parachute", 1) then
+        -- exports.ox_inventory:AddItem(source, "unpacked_parachute", 1)
+        return true
+    else
+        return false
+    end
+
+end)
+
+
 -----------------------------------------------------------------------------------------------
 -- Serverside item functions
 -----------------------------------------------------------------------------------------------
