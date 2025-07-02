@@ -214,6 +214,11 @@ Item('clothing', function(data, slot)
 	end)
 end)
 
+Item('tablet', function ()
+    local isOpen = exports["lb-tablet"]:IsOpen()
+    exports["lb-tablet"]:ToggleOpen(not isOpen)
+end)
+
 -----------------------------------------------------------------------------------------------
 
 exports('Items', function(item) return getItem(nil, item) end)
