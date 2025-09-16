@@ -6,8 +6,34 @@ local Shops = {}
 local locations = shared.target and 'targets' or 'locations'
 
 ---@class OxShopItem
----@field slot number
+---@field name string
+---@field price number
 ---@field weight number
+---@field currency string | nil
+---@field count number | nil
+---@field license string | nil
+---@field metadata table | nil
+---@field grade number | number[] | nil
+
+---@class OxShopDto
+---@field name string
+---@field blip { id: number; colour: number; scale: number } | nil
+---@field groups table<string, number>
+---@field jobs table<string, number>
+---@field inventory OxShopItem[]
+---@field locations vector3[] | nil
+---@field target table[] | nil
+---@field model number[] | nil
+
+---@class OxShop
+---@field id string
+---@field label string
+---@field type 'shop'
+---@field groups table<string, number> | nil
+---@field coords vector3
+---@field distance false | number is false if setr inventory:target false
+---@field items OxShopItem[]
+---@field slots number
 
 local function setupShopItems(id, shopType, shopName, groups)
 	local shop = id and Shops[shopType][id] or Shops[shopType] --[[@as OxShop]]
@@ -46,7 +72,7 @@ local function setupShopItems(id, shopType, shopName, groups)
 end
 
 ---@param shopType string
----@param properties OxShop
+---@param properties OxShopDto
 local function registerShopType(shopType, properties)
 	local shopLocations = properties[locations] or properties.locations
 
@@ -112,7 +138,7 @@ for shopType, shopDetails in pairs(lib.load('data.shops') or {}) do
 end
 
 ---@param shopType string
----@param shopDetails OxShop
+---@param shopDetails OxShopDto
 exports('RegisterShop', function(shopType, shopDetails)
 	registerShopType(shopType, shopDetails)
 end)
