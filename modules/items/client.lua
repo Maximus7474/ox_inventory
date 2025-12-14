@@ -186,6 +186,16 @@ Item('clothing', function(data, slot)
 	end)
 end)
 
+Item('tablet', function ()
+    if GetResourceState('lb-tablet') ~= 'started' then return end
+    exports['lb-tablet']:ToggleOpen(true)
+end)
+
+Item('racingtablet', function ()
+    if GetResourceState('lb-racing') ~= 'started' then return end
+    ExecuteCommand('racingtablet')
+end)
+
 -----------------------------------------------------------------------------------------------
 
 exports('Items', function(item) return getItem(nil, item) end)
