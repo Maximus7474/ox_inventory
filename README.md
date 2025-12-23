@@ -2,7 +2,10 @@
 
 Refer to INSTALL/tutorial.md for a detailed installation guide.
 
-**If you want custom ox_inventory redesign you can message me in discord: toshko**
+> [!NOTE]
+> This is not my own redesign, I've simply "forked" it from the original creator for personnal use.
+> 
+> REDESIGN CREDIT: https://github.com/NoLag-Development/ox_inventory
 
 ![image](preview.png)
 # ox_inventory
