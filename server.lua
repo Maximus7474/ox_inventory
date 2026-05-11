@@ -142,20 +142,11 @@ local function openInventory(source, invType, data, ignoreSecurityChecks)
 
     if data then
         local isDataTable = type(data) == 'table'
-
-<<<<<<< HEAD
-		if invType == 'stash' then
-			right = Inventory(data, left)
-			if right == false then return false end
-		elseif isDataTable then
-			if data.netid then
-=======
         if invType == 'stash' then
             right = Inventory(data, left, ignoreSecurityChecks)
             if right == false then return false end
         elseif isDataTable then
             if data.netid then
->>>>>>> main
                 local entity = NetworkGetEntityFromNetworkId(data.netid)
 
                 if not entity then return end
@@ -195,26 +186,6 @@ local function openInventory(source, invType, data, ignoreSecurityChecks)
                 if right and data.netid ~= right.netid then
                     local invEntity = NetworkGetEntityFromNetworkId(right.netid)
 
-<<<<<<< HEAD
-					if not (invEntity > 0 and DoesEntityExist(invEntity)) or (plate and not string.match(GetVehicleNumberPlateText(invEntity) or '', plate)) then
-						Inventory.Remove(right)
-						right = Inventory(data)
-					end
-				end
-			elseif invType == 'drop' then
-				right = Inventory(data.id)
-			else
-				return
-			end
-		elseif invType == 'policeevidence' then
-			if server.hasGroup(left, shared.police) then
-				right = Inventory(('evidence-%s'):format(data))
-			end
-		elseif invType == 'dumpster' then
-			if shared.networkdumpsters then
-				local dumpsterId = getDumpsterFromCoords(data)
-				right = dumpsterId and Inventory(('dumpster-%s'):format(dumpsterId))
-=======
                     if not (invEntity > 0 and DoesEntityExist(invEntity)) or (plate and not string.match(GetVehicleNumberPlateText(invEntity) or '', plate)) then
                         Inventory.Remove(right)
                         right = Inventory(data)
@@ -233,7 +204,6 @@ local function openInventory(source, invType, data, ignoreSecurityChecks)
             if shared.networkdumpsters then
                 local dumpsterId = getDumpsterFromCoords(data)
                 right = dumpsterId and Inventory(('dumpster-%s'):format(dumpsterId))
->>>>>>> main
 
                 if not right then
                     dumpsterId = #registeredDumpsters + 1
@@ -428,7 +398,6 @@ RegisterNetEvent('ox_inventory:usedItemInternal', function(slot)
     inventory.usingItem = nil
 end)
 
-<<<<<<< HEAD
 RegisterNetEvent('ox_inventory:renameItemInternal', function(slotId, newName)
 	local src = source
 	local inv = Inventory(src)
@@ -442,9 +411,8 @@ RegisterNetEvent('ox_inventory:renameItemInternal', function(slotId, newName)
 
 	Inventory.SetMetadata(src, slotId, metadata)
 end)
-=======
+
 local GetLocks = require 'modules.locks'
->>>>>>> main
 
 ---@param source number
 ---@param itemName string
@@ -535,15 +503,6 @@ lib.callback.register('ox_inventory:useItem', function(source, itemName, slot, m
                 end
             elseif not item.weapon and server.UseItem then
                 inventory.usingItem = data
-<<<<<<< HEAD
-				-- This is used to call an external useItem function, i.e. ESX.UseItem / QBCore.Functions.CanUseItem
-				-- If an error is being thrown on item use there is no internal solution. We previously kept a list
-				-- of usable items which led to issues when restarting resources (for obvious reasons), but config
-				-- developers complained the inventory broke their items. Safely invoking registered item callbacks
-				-- should resolve issues, i.e. https://github.com/esx-framework/esx-legacy/commit/9fc382bbe0f5b96ff102dace73c424a53458c96e
-				return pcall(server.UseItem, source, data.name, data)
-			end
-=======
                 -- This is used to call an external useItem function, i.e. ESX.UseItem
                 -- If an error is being thrown on item use there is no internal solution. We previously kept a list
                 -- of usable items which led to issues when restarting resources (for obvious reasons), but config
@@ -551,7 +510,6 @@ lib.callback.register('ox_inventory:useItem', function(source, itemName, slot, m
                 -- should resolve issues, i.e. https://github.com/esx-framework/esx-legacy/commit/9fc382bbe0f5b96ff102dace73c424a53458c96e
                 return pcall(server.UseItem, source, data.name, data)
             end
->>>>>>> main
 
             data.consume = consume
 
@@ -647,15 +605,9 @@ RegisterCommand('convertinventory', function(source, args)
 
     local convert = arg and conversionScript[arg]
 
-<<<<<<< HEAD
-	if not convert then
-		return warn('Invalid conversion argument. Valid options: esx, esxproperty, qb, linden')
-	end
-=======
     if not convert then
         return warn('Invalid conversion argument. Valid options: esx, esxproperty')
     end
->>>>>>> main
 
     CreateThread(convert)
 end, true)
