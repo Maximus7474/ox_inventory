@@ -92,10 +92,20 @@ const InventoryControl: React.FC = () => {
             min={0}
           />
           <div className="ButtonRow">
-            <button className="inventory-control-button" ref={use}>
+            <button
+            className="inventory-control-button"
+            ref={(el) => {
+              use(el);
+            }}
+          >
               {Locale.ui_use || 'Use'}
             </button>
-            <button className="inventory-control-button" ref={give}>
+            <button
+            className="inventory-control-button"
+            ref={(el) => {
+              give(el);
+            }}
+          >
               {Locale.ui_give || 'Give'}
             </button>
           </div>
